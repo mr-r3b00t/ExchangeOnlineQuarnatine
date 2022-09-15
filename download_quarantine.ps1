@@ -15,10 +15,15 @@ $item.Identity
 $item.MessageId
 $c = $c + 1
 
-$file = "$c" + ".eml"
+$path = pwd
+
+$file = "$path\$c" + ".eml"
 
 $name = $item.Subject
 $data = Export-QuarantineMessage -Identity $item.Identity
-$bytes = [Convert]::FromBase64String($data.eml) | Out-File $file
+
+$bytes = [Convert]::FromBase64String($data.eml)
+[IO.File]::WriteAllBytes($file, $bytes)
+
 
 }
